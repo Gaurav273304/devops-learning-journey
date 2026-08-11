@@ -74,7 +74,11 @@ command1 && command2    # second only runs if the first one succeeds
 Actually resolving a merge conflict for the first time was confusing — wasn't sure at first whether to keep both versions or pick one. Once I understood that the markers just show both options and I have full control over the final content, it made a lot more sense.
 
 ## Files in this folder
-- *(add files here as they're created — e.g. practice repo files used for the branching/merge exercise)*
+- *gittest.txt, file2.txt — git add/status/commit practice
+feature.txt — branching practice (feature-test branch se merge hui)
+conflict-test.txt — merge conflict practice (resolve karke final content bacha)
+.gitignore — log files ignore karne ke liye
+test.log — .gitignore test karne ke liye (ye track nahi hui, isliye ye push nahi hogi — normal hai)*
 
 ## Interview Question Prep
 
