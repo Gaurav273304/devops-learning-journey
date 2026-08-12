@@ -8,7 +8,7 @@ This isn't a polished tutorial — it's my real, day-by-day practice log.
 
 | Day | Topic | What I actually did |
 |-----|-------|----------------------|
-| [01-02](./day01-02-linux-basics) | Linux Basics | Worked through file permissions and ownership — finally understood how `chmod` actually works |
+| [01-02](./day01-02-linux-basics) | Linux Basics | Covered Linux navigation, file operations, permissions (chmod/chown), and wrote my first bash script |
 | [03](./day03-process-management) | Process & Service Management | Built a health check script, got comfortable with `ps`/`top` |
 | [04](./day04-networking) | Networking | DNS, ports, SSH — used `netstat` for the first time in a real scenario |
 | [05](./day05-bash-scripting) | Bash Scripting | Wrote a log monitor script — my first real automation using `grep`/`awk` |
