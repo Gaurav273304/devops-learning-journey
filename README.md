@@ -12,7 +12,7 @@ This isn't a polished tutorial — it's my real, day-by-day practice log.
 | [03](./day03-process-management) | Process & Service Management | Built a health check script, got comfortable with `ps`/`top` |
 | [04](./day04-networking) | Networking | DNS, ports, SSH — used `netstat` for the first time in a real scenario |
 | [05](./day05-bash-scripting) | Bash Scripting | Wrote a log monitor script — my first real automation using `grep`/`awk` |
-| [06](./day06-git-basics) | Git Basics | (in progress) |
+| [06](./day06-git-basics) | Git Deep Dive | Practiced branching, resolved my first real merge conflict, set up .gitignore |
 
 ## Setup
 
