@@ -15,6 +15,7 @@ This isn't a polished tutorial — it's my real, day-by-day practice log.
 | [06](./day06-git-basics) | Git Deep Dive | Practiced branching, resolved my first real merge conflict, set up .gitignore |
 | [07](./day07-week1-project) | Week 1 Revision + Project | Took a revision test, then built a Server Health Monitor script combining the whole week's concepts |
 | [08](./day08-docker) | Docker Fundamentals | Built and ran my first custom Docker image — an nginx container serving my own webpage |
+| [09](./day09-docker-advanced) | Docker Volumes, Networking & Compose | Built a multi-container setup (nginx + MySQL) using volumes, custom networks, and Docker Compose |
 
 ## Setup
 
