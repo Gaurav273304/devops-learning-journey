@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  webapp:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    networks:
+      - myappnetwork
+
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword123
+      MYSQL_DATABASE: testdb
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - myappnetwork
+
+networks:
+  myappnetwork:
+
+volumes:
+  dbdata:
