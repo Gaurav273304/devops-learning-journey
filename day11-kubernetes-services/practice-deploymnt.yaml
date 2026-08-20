@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: practice-app
+  name: practice-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: practice-app
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: practice-app
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
