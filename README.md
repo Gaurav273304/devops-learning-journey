@@ -17,6 +17,7 @@ This isn't a polished tutorial — it's my real, day-by-day practice log.
 | [08](./day08-docker) | Docker Fundamentals | Built and ran my first custom Docker image — an nginx container serving my own webpage |
 | [09](./day09-docker-advanced) | Docker Volumes, Networking & Compose | Built a multi-container setup (nginx + MySQL) using volumes, custom networks, and Docker Compose |
 | [10](./day10-kubernetes-basics) | Kubernetes Fundamentals | Deployed my first app on minikube and tested self-healing by deleting a Pod |
+| [11](./day11-kubernetes-services) | Kubernetes Services, Scaling & ConfigMaps | Learned why Services exist, scaled a deployment, and injected config via ConfigMap |
 
 ## Setup
 
