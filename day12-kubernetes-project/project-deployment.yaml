@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-project
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp-project
+  template:
+    metadata:
+      labels:
+        app: webapp-project
+    spec:
+      containers:
+      - name: ngnix
+        image: nginx
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: webapp-config
+        volumeMounts:
+        - mountPath: /data
+          name: my-storage
+      volumes:
+      - name: my-storage
+        persistentVolumeClaim:
+          claimName: my-pvc
