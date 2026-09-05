@@ -45,3 +45,4 @@ A: It's free-tier eligible, meaning it can run up to 750 hours per month without
 
 Q: Is IAM tied to a specific AWS region?
 A: No - IAM is a global service. It applies across the entire AWS account regardless of region, unlike services like EC2 or S3 which are region-specific.
+EOF
