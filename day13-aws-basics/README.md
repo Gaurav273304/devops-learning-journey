@@ -1,4 +1,4 @@
-# Day 13: AWS Fundamentals (IAM, EC2, S3)
+# Day 13: AWS Fundamentals (IAM, EC2, S3) + Live Deployment
 
 ## What I did today
 Set up an AWS account, learned the foundational security service (IAM), attempted my first EC2 instance launch (hit an account verification hold along the way), and created an S3 bucket to practice cloud storage basics.
@@ -26,8 +26,25 @@ Cloud file storage, organized into "buckets" (each bucket name must be globally 
 
 Uploaded a file and confirmed that trying to access its direct URL returned "Access Denied" - S3 buckets are private by default as a security measure, so data isn't accidentally exposed to the public internet.
 
+## Live Deployment Walkthrough
+
+1. Connected to the EC2 instance via SSH:
+chmod 400 first-web-server.pem
+ssh -i first-web-server.pem ubuntu@<public-dns>
+
+2. Installed and started nginx on the server:
+sudo apt update
+sudo apt install nginx -y
+sudo systemctl status nginx
+
+3. Fixed access by updating the Security Group (AWS's firewall) - by default only SSH (port 22) is open. Had to add an inbound rule for HTTP (port 80) from 0.0.0.0/0 before the site was reachable from a browser.
+
+4. Verified the site was live by visiting http://<public-ip> in a browser and seeing the nginx welcome page - my first real, internet-facing cloud deployment.
+
 ## Where I got stuck
 EC2 instance launch failed with "This account is currently blocked and not recognized as a valid account" - turned out AWS had put a hold on the account for verification and required documents to be submitted. Uploaded the requested documents and switched to working on S3 in the meantime rather than getting stuck waiting. Also mixed up IAM's global nature at first - kept trying to select a region on the IAM page (which isn't possible, since IAM has no region) before realizing region selection only applies to services like EC2 and S3.
+
+Security Group confusion: After launching nginx, the site wasn't reachable even though the server was running (curl localhost worked on the server itself). Realized this was because the default Security Group only allows SSH - had to explicitly add an HTTP inbound rule to open port 80.
 
 ## Files in this folder
 - notes.md - working notes taken during the session
@@ -45,3 +62,6 @@ A: It's free-tier eligible, meaning it can run up to 750 hours per month without
 
 Q: Is IAM tied to a specific AWS region?
 A: No - IAM is a global service. It applies across the entire AWS account regardless of region, unlike services like EC2 or S3 which are region-specific.
+
+Q: If your EC2 instance is running but you can't reach it from a browser, what would you check first?
+A: The Security Group's inbound rules - by default only SSH (port 22) is open. HTTP (port 80) or HTTPS (port 443) need to be explicitly allowed for the instance to be reachable via a browser.
