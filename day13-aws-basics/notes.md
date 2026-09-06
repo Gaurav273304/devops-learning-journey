@@ -11,3 +11,11 @@
 - EC2/S3 are region-specific
 - t2.micro is free-tier eligible
 - S3 buckets are private by default (security)
+
+## Update - EC2 Successfully Launched
+- Verification hold cleared after ~20 hours
+- Successfully launched EC2 instance (t3.micro)
+- Connected via SSH using .pem key
+- Installed nginx on the server
+- Fixed Security Group to allow HTTP (port 80) traffic
+- Verified website live and accessible via public IP
