@@ -1,67 +1,112 @@
-# Day 13: AWS Fundamentals (IAM, EC2, S3) + Live Deployment
+# Day 13: AWS Fundamentals - IAM, EC2, S3 (with Live Deployment)
 
-## What I did today
-Set up an AWS account, learned the foundational security service (IAM), attempted my first EC2 instance launch (hit an account verification hold along the way), and created an S3 bucket to practice cloud storage basics.
+## What I did
+Set up an AWS account, learned IAM basics, created an IAM user, hit a real 
+account verification hold on EC2 (resolved it by submitting documents), 
+created an S3 bucket, and - after the hold cleared - successfully launched 
+an EC2 instance and deployed a live, internet-accessible nginx web server on it.
 
 ## Concepts Learned
 
 ### Why AWS
-Instead of building and maintaining a physical server room, AWS lets companies rent servers, storage, databases, and networking over the internet - paying only for what they use, and scaling up or down as needed.
+Instead of building and maintaining a physical server room, AWS lets 
+companies rent servers, storage, databases, and networking over the 
+internet - paying only for what they use, and scaling up or down as needed.
 
 ### IAM (Identity and Access Management)
 Controls who can do what within an AWS account - the foundation of AWS security.
-- Root user - the account created at sign-up; has full access to everything. Should never be used for daily tasks, since a compromised root account means a fully compromised AWS account.
-- IAM user - created for day-to-day work, with specific/limited permissions attached via policies.
-- Important: IAM is a global service - it has no region. Unlike EC2 or S3, which are region-specific, IAM applies across the entire account no matter which region you're working in.
+- **Root user** - created at sign-up; has full, unrestricted access. 
+  Should never be used for daily tasks, since a compromised root account 
+  means the entire account is at risk.
+- **IAM user** - created for day-to-day work, with specific/limited 
+  permissions attached via policies.
+- **Important:** IAM is a **global** service - it has no region, unlike 
+  EC2 or S3 which are region-specific.
 
 ### EC2 (Elastic Compute Cloud)
-A virtual server service - this is what "Node" represented conceptually back in the Kubernetes sessions (Day 10), except a real EC2 instance is an actual cloud server, not a local simulation like minikube.
-- t2.micro - the free-tier eligible instance type; using this avoids being charged (750 hours/month free).
-- A key pair (.pem file) is generated at launch time and is required to SSH into the instance later - conceptually the same SSH setup practiced back in Day 4, just against a real cloud server instead of localhost.
+A virtual server in the cloud - the real-world version of the "Node" 
+concept from Kubernetes (Day 10), except this is an actual internet-facing 
+machine, not a local simulation like minikube.
+- `t3.micro` - free-tier eligible instance type, avoids being charged
+- A `.pem` key pair is generated at launch time and used to SSH into the 
+  instance - the same SSH concept practiced back on Day 4, now against a 
+  real cloud server instead of localhost
 
 ### S3 (Simple Storage Service)
-Cloud file storage, organized into "buckets" (each bucket name must be globally unique across all of AWS, not just my account).
-
-# Workflow: create bucket -> upload file -> verify access
-
-Uploaded a file and confirmed that trying to access its direct URL returned "Access Denied" - S3 buckets are private by default as a security measure, so data isn't accidentally exposed to the public internet.
+Cloud file storage organized into "buckets" (each bucket name must be 
+globally unique across all of AWS). Uploaded a file and confirmed that 
+its direct URL returns "Access Denied" - S3 buckets are private by 
+default as a security measure.
 
 ## Live Deployment Walkthrough
 
-1. Connected to the EC2 instance via SSH:
+**1. Connected to the EC2 instance via SSH:**
+```bash
 chmod 400 first-web-server.pem
 ssh -i first-web-server.pem ubuntu@<public-dns>
+```
 
-2. Installed and started nginx on the server:
+**2. Installed and started nginx on the server:**
+```bash
 sudo apt update
 sudo apt install nginx -y
 sudo systemctl status nginx
+```
 
-3. Fixed access by updating the Security Group (AWS's firewall) - by default only SSH (port 22) is open. Had to add an inbound rule for HTTP (port 80) from 0.0.0.0/0 before the site was reachable from a browser.
+**3. Fixed access by updating the Security Group** (AWS's firewall) - by 
+default only SSH (port 22) is open on a new instance. Had to add an 
+inbound rule allowing HTTP (port 80) from `0.0.0.0/0` before the site 
+was reachable from a browser.
 
-4. Verified the site was live by visiting http://<public-ip> in a browser and seeing the nginx welcome page - my first real, internet-facing cloud deployment.
+**4. Verified the site was live** by visiting `http://<public-ip>` in a 
+browser and seeing the nginx welcome page - my first real, internet-facing 
+cloud deployment.
 
 ## Where I got stuck
-EC2 instance launch failed with "This account is currently blocked and not recognized as a valid account" - turned out AWS had put a hold on the account for verification and required documents to be submitted. Uploaded the requested documents and switched to working on S3 in the meantime rather than getting stuck waiting. Also mixed up IAM's global nature at first - kept trying to select a region on the IAM page (which isn't possible, since IAM has no region) before realizing region selection only applies to services like EC2 and S3.
 
-Security Group confusion: After launching nginx, the site wasn't reachable even though the server was running (curl localhost worked on the server itself). Realized this was because the default Security Group only allows SSH - had to explicitly add an HTTP inbound rule to open port 80.
+**Account verification hold:** EC2 launch initially failed with "account 
+blocked and not recognized as a valid account." AWS had flagged the new 
+account for verification and required documents to be submitted. Uploaded 
+them and switched to working on S3 in the meantime rather than waiting 
+idle - the hold cleared roughly 20 hours later.
+
+**Security Group confusion:** After nginx was confirmed running 
+(`curl localhost` worked directly on the server), the site still wasn't 
+reachable from a browser. Realized the default Security Group only allows 
+SSH - had to explicitly add an inbound rule for HTTP (port 80) before 
+external access worked.
+
+**IAM's global nature:** Initially kept trying to select a region on the 
+IAM page before realizing this isn't possible - IAM applies account-wide 
+regardless of region, unlike EC2 or S3 where region selection matters.
 
 ## Files in this folder
-- notes.md - working notes taken during the session
+- `notes.md` - working notes from the session
 
 ## Interview Question Prep
 
-Q: Why shouldn't you use the root account for daily tasks in AWS?
-A: The root account has unrestricted access to everything in the AWS account. If its credentials were ever compromised, the entire account would be at risk. IAM users with limited, specific permissions are used instead for daily work.
+**Q: Why shouldn't you use the root account for daily tasks?**
+A: The root account has unrestricted access to everything in the AWS 
+account. If its credentials were ever compromised, the entire account 
+would be at risk. IAM users with limited, specific permissions are used 
+instead for daily work.
 
-Q: Why are S3 buckets private by default?
-A: To prevent sensitive data from being accidentally exposed to the public internet - AWS defaults to the more restrictive/secure option, requiring explicit configuration to make anything public.
+**Q: Why are S3 buckets private by default?**
+A: To prevent sensitive data from being accidentally exposed to the 
+public internet - AWS defaults to the more restrictive/secure option.
 
-Q: What's the significance of using a t2.micro instance?
-A: It's free-tier eligible, meaning it can run up to 750 hours per month without being charged - useful for learning and testing without incurring costs.
+**Q: What's the significance of using a t3/t2.micro instance?**
+A: It's free-tier eligible, meaning it can run a set number of hours per 
+month without being charged - useful for learning and testing without 
+incurring costs.
 
-Q: Is IAM tied to a specific AWS region?
-A: No - IAM is a global service. It applies across the entire AWS account regardless of region, unlike services like EC2 or S3 which are region-specific.
+**Q: Is IAM tied to a specific AWS region?**
+A: No - IAM is a global service. It applies across the entire AWS account 
+regardless of region, unlike EC2 or S3 which are region-specific.
 
-Q: If your EC2 instance is running but you can't reach it from a browser, what would you check first?
-A: The Security Group's inbound rules - by default only SSH (port 22) is open. HTTP (port 80) or HTTPS (port 443) need to be explicitly allowed for the instance to be reachable via a browser.
+**Q: If your EC2 instance is running but you can't reach it from a 
+browser, what's the first thing you'd check?**
+A: The Security Group's inbound rules. By default, only SSH (port 22) is 
+open - HTTP (port 80) or HTTPS (port 443) must be explicitly allowed for 
+the instance to be reachable from a browser, even if the web server 
+itself is running correctly.
