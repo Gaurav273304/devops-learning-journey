@@ -1,0 +1,8 @@
+name : Hello World Workflow
+on : push
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Hello Devops World!"
