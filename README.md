@@ -21,6 +21,7 @@ This isn't a polished tutorial — it's my real, day-by-day practice log.
 | [12](./day12-kubernetes-project) | Kubernetes Persistent Volumes + Week 2 Project | Debugged a storageClassName mismatch and combined Deployment, Service, ConfigMap, and PVC into one project |
 | [13](./day13-aws-basics) | AWS Fundamentals (IAM, EC2, S3) | Set up IAM, hit an EC2 account verification hold, and practiced S3 bucket basics |
 | [14](./day14-iam-policies-roles) | IAM Policies, Roles & Security Groups | Attached an IAM Role to EC2, debugged a real AccessDenied error, and learned Security Group statefulness |
+| [15](./day15-cicd-fundamentals) | CI/CD Fundamentals | Built first two GitHub Actions workflows and learned the CI vs Delivery vs Deployment distinction |
 
 ## Setup
 
