@@ -1,0 +1,11 @@
+name: practice1 workflow
+
+on: push
+
+jobs: build
+  greet:
+    runs-on: Ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Starting build process" 
+        run: echo "Build complete"
